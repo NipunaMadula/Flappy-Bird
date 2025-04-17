@@ -9,6 +9,12 @@ class FlappyBirdGame extends FlameGame with TapDetector {
   }
 
   @override
+  void update(double dt) {
+    
+    super.update(dt);
+  }
+
+  @override
   void render(Canvas canvas) {
     canvas.drawRect(
       Rect.fromLTWH(0, 0, size.x, size.y),

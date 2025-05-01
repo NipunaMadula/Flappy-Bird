@@ -7,4 +7,8 @@ class Bird {
     velocity += gravity * dt;
     y += velocity * dt;
   }
+
+  void jump() {
+   velocity = -300;
+  }
 }

@@ -4,6 +4,10 @@ class PipeSystem {
   final double gap = 150;
 
   void update(double dt) {
+
+    for (int i = 0; i < pipes.length; i++) {
+      pipes[i] -= 100 * dt;
+    }
     
   }
 }

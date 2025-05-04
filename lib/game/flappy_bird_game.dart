@@ -10,6 +10,11 @@ class FlappyBirdGame extends FlameGame with TapDetector {
   final Bird bird = Bird();
   final PipeSystem pipeSystem = PipeSystem();
 
+  bool checkCollisions() {
+    
+    return false;
+  }
+
   @override
   Future<void> onLoad() async {
     bird.y = size.y / 2;

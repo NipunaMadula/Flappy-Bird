@@ -7,7 +7,9 @@ class PipeSystem {
 
     for (int i = 0; i < pipes.length; i++) {
       pipes[i] -= 100 * dt;
-    }
-    
+      if (pipes[i] < -50) {
+        pipes[i] = 600; 
+      }
+    } 
   }
 }

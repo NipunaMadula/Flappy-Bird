@@ -11,11 +11,24 @@ class FlappyBirdGame extends FlameGame with TapDetector {
   final PipeSystem pipeSystem = PipeSystem();
 
   bool checkCollisions() {
+    // Ground and sky collision
     if (bird.y > size.y || bird.y < 0) {
       return true;
     }
+    
+    // Pipe collision
+    for (double x in pipeSystem.pipes) {
+      if ((x - size.x / 3).abs() < 25) {
+        if (bird.y < size.y/2 - pipeSystem.gap/2 || 
+            bird.y > size.y/2 + pipeSystem.gap/2) {
+          return true;
+        }
+      }
+    }
+    
     return false;
   }
+
 
   @override
   Future<void> onLoad() async {

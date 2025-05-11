@@ -65,7 +65,7 @@ class FlappyBirdGame extends FlameGame with TapDetector {
       text: TextSpan(
         text: gameManager.state == GameState.ready ? 'Tap to Play' :
               gameManager.state == GameState.gameOver ? 'Game Over' : '',
-        style: TextStyle(color: Colors.white, fontSize: 24),
+        style: TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold),
       ),
       textDirection: TextDirection.ltr,
     );

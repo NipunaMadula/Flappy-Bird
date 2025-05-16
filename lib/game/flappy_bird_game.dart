@@ -26,6 +26,10 @@ class FlappyBirdGame extends FlameGame with TapDetector {
     if (gameManager.state == GameState.playing) {
       bird.update(dt);
       pipeSystem.update(dt);
+
+    if (pipeSystem.checkScore(size.x / 3)) {
+      gameManager.increaseScore();
+      }
       
       if (checkCollisions()) {
         gameManager.state = GameState.gameOver;

@@ -18,6 +18,7 @@ class FlappyBirdGame extends FlameGame with TapDetector {
   void reset() {
     bird.y = size.y / 2;
     bird.velocity = 0;
+    pipeSystem.reset();
     gameManager.reset();
   }
   

@@ -64,7 +64,16 @@ class FlappyBirdGame extends FlameGame with TapDetector {
         pipePaint,
       );
     }
-    
+    TextPainter scorePainter = TextPainter(
+    text: TextSpan(
+        text: 'Score: ${gameManager.score}',
+        style: TextStyle(color: Colors.white, fontSize: 24),
+      ),
+      textDirection: TextDirection.ltr,
+    );
+    scorePainter.layout();
+    scorePainter.paint(canvas, Offset(20, 20));
+
     TextPainter textPainter = TextPainter(
       text: TextSpan(
         text: gameManager.state == GameState.ready ? 'Tap to Play' :

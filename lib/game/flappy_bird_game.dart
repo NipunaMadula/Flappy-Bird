@@ -4,11 +4,16 @@ import "package:flame/game.dart";
 import 'package:flame/input.dart';
 import 'package:flappy_bird/game/bird.dart';
 import 'package:flappy_bird/game/pipe_system.dart';
+import 'package:flame/sprite.dart';
 
 class FlappyBirdGame extends FlameGame with TapDetector {
   final Bird bird = Bird();
   final PipeSystem pipeSystem = PipeSystem();
   final GameManager gameManager = GameManager();
+
+  late Sprite birdSprite;
+  late Sprite pipeSprite;
+  late Sprite backgroundSprite;
   
   @override
   Future<void> onLoad() async {

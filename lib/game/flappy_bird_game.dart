@@ -52,31 +52,46 @@ class FlappyBirdGame extends FlameGame with TapDetector {
   
   @override
   void render(Canvas canvas) {
-    canvas.drawRect(
-      Rect.fromLTWH(0, 0, size.x, size.y),
-      Paint()..color = const Color(0xFF87CEEB),
+    backgroundSprite.render(
+      canvas,
+      position: Vector2(0, 0),
+      size: Vector2(size.x, size.y),
     );
     
-    canvas.drawCircle(
-      Offset(size.x / 3, bird.y),
-      20,
-      Paint()..color = Colors.red,
-    );
-    
-    final Paint pipePaint = Paint()..color = Colors.green;
     for (double x in pipeSystem.pipes) {
-      canvas.drawRect(
-        Rect.fromLTWH(x, 0, 50, size.y/2 - pipeSystem.gap/2),
-        pipePaint,
+      canvas.save();
+      canvas.scale(1, -1);
+      pipeSprite.render(
+        canvas,
+        position: Vector2(x, -size.y/2 + pipeSystem.gap/2),
+        size: Vector2(50, size.y/2 - pipeSystem.gap/2),
       );
+      canvas.restore();
       
-      canvas.drawRect(
-        Rect.fromLTWH(x, size.y/2 + pipeSystem.gap/2, 50, size.y/2 - pipeSystem.gap/2),
-        pipePaint,
+      pipeSprite.render(
+        canvas,
+        position: Vector2(x, size.y/2 + pipeSystem.gap/2),
+        size: Vector2(50, size.y/2 - pipeSystem.gap/2),
       );
     }
+    
+    canvas.save();
+    final birdPosition = Vector2(size.x / 3, bird.y);
+    canvas.translate(birdPosition.x, birdPosition.y);
+    
+    final rotation = (bird.velocity.clamp(-300, 300) / 300) * 0.5;
+    canvas.rotate(rotation);
+    
+    birdSprite.render(
+      canvas,
+      position: Vector2(-20, -20), 
+      size: Vector2(40, 40),
+    );
+    
+    canvas.restore();
+    
     TextPainter scorePainter = TextPainter(
-    text: TextSpan(
+      text: TextSpan(
         text: 'Score: ${gameManager.score}',
         style: TextStyle(color: Colors.white, fontSize: 24),
       ),
@@ -84,17 +99,46 @@ class FlappyBirdGame extends FlameGame with TapDetector {
     );
     scorePainter.layout();
     scorePainter.paint(canvas, Offset(20, 20));
-
-    TextPainter textPainter = TextPainter(
-      text: TextSpan(
-        text: gameManager.state == GameState.ready ? 'Tap to Play' :
-              gameManager.state == GameState.gameOver ? 'Game Over' : '',
-        style: TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold),
-      ),
-      textDirection: TextDirection.ltr,
-    );
-    textPainter.layout();
-    textPainter.paint(canvas, Offset(size.x/2 - textPainter.width/2, size.y/3));
+    
+    if (gameManager.state == GameState.ready || gameManager.state == GameState.gameOver) {
+      canvas.drawRect(
+        Rect.fromLTWH(0, 0, size.x, size.y),
+        Paint()..color = Colors.black.withOpacity(0.3),
+      );
+      
+      String mainText = gameManager.state == GameState.ready ? 'Tap to Play' : 'Game Over';
+      TextPainter mainTextPainter = TextPainter(
+        text: TextSpan(
+          text: mainText,
+          style: const TextStyle(color: Colors.white, fontSize: 36, fontWeight: FontWeight.bold),
+        ),
+        textDirection: TextDirection.ltr,
+      );
+      mainTextPainter.layout();
+      mainTextPainter.paint(canvas, Offset(size.x/2 - mainTextPainter.width/2, size.y/3));
+      
+      if (gameManager.state == GameState.gameOver) {
+        TextPainter scorePainter = TextPainter(
+          text: TextSpan(
+            text: 'Final Score: ${gameManager.score}',
+            style: const TextStyle(color: Colors.white, fontSize: 24),
+          ),
+          textDirection: TextDirection.ltr,
+        );
+        scorePainter.layout();
+        scorePainter.paint(canvas, Offset(size.x/2 - scorePainter.width/2, size.y/2));
+        
+        TextPainter tapTextPainter = TextPainter(
+          text: const TextSpan(
+            text: 'Tap to restart',
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+          textDirection: TextDirection.ltr,
+        );
+        tapTextPainter.layout();
+        tapTextPainter.paint(canvas, Offset(size.x/2 - tapTextPainter.width/2, size.y/2 + 40));
+      }
+    }
     
     super.render(canvas);
   }

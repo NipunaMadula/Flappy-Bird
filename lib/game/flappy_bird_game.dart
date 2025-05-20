@@ -17,6 +17,11 @@ class FlappyBirdGame extends FlameGame with TapDetector {
   
   @override
   Future<void> onLoad() async {
+
+    birdSprite = await Sprite.load('bird.gif');
+    pipeSprite = await Sprite.load('pipe.png');
+    backgroundSprite = await Sprite.load('background.jpg');
+    
     reset();
   }
   
